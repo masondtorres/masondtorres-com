@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { CatalogClient } from "@/components/CatalogClient";
 import { books, bookBySlug, publishedBookCount } from "@/lib/data";
+import { BookCover } from "@/components/BookCover";
 
 const baseUrl = "https://masondtorres-com.vercel.app";
 
@@ -9,14 +10,16 @@ function statusClass(status) {
   return `status status-${status.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`;
 }
 
+function displayPrice(price) {
+  if (!price) return "View on Amazon";
+  const value = String(price);
+  return value.startsWith("$") ? value : `$${value}`;
+}
+
 function BookPage({ book }) {
   return (
     <section className="shell section book-detail">
-      <div className="cover large-cover" aria-label={`Text cover for ${book.title}`}>
-        <span>{book.category}</span>
-        <strong>{book.title}</strong>
-        <small>{book.authors.join(" & ")}</small>
-      </div>
+      <div className="detail-cover-wrap"><BookCover book={book} large /></div>
       <div>
         <span className={statusClass(book.status)}>{book.status}</span>
         <h1>{book.title}</h1>
@@ -30,7 +33,7 @@ function BookPage({ book }) {
               {book.formats.map((format) => (
                 <a key={format.asin} className="format-link" href={format.url} target="_blank" rel="noreferrer">
                   <strong>{format.name}</strong>
-                  <span>{format.price ? `$${format.price}` : "View on Amazon"}</span>
+                  <span>{displayPrice(format.price)}</span>
                 </a>
               ))}
             </div>
