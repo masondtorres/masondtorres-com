@@ -9,10 +9,9 @@ export function SiteFooter() {
           <p>House of Torres Publishers</p>
         </div>
         <nav aria-label="Footer navigation">
-          <Link href="/bookops">BookOps</Link>
+          <Link href="/books">Books</Link>
+          <Link href="/about">About</Link>
           <Link href="/privacy">Privacy</Link>
-          <Link href="/terms">Terms</Link>
-          <Link href="/accessibility">Accessibility</Link>
         </nav>
       </div>
       <div className="shell copyright">© {new Date().getFullYear()} Mason Torres. All rights reserved.</div>
