@@ -7,15 +7,15 @@ const baseUrl = "https://masondtorres-com.vercel.app";
 export const metadata = {
   metadataBase: new URL(baseUrl),
   title: {
-    default: "Mason Torres | Practical Books Built from Real Life",
+    default: "Mason Torres | 84 Published Books",
     template: "%s | Mason Torres"
   },
-  description: "Published books by Mason Torres about faith, family, business, artificial intelligence, timeshare, and fiction.",
+  description: "The complete published catalog of Mason Torres and House of Torres Publishers: 84 books with direct retailer links and current availability.",
   authors: [{ name: "Mason Torres" }],
   alternates: { canonical: baseUrl },
   openGraph: {
-    title: "Mason Torres",
-    description: "Practical books built from real life.",
+    title: "Mason Torres | 84 Published Books",
+    description: "Faith, family, business, veterans, publishing, AI, timeshare, stories, journals, and puzzle books.",
     url: baseUrl,
     type: "website"
   }
