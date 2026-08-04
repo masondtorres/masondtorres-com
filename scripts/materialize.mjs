@@ -2,6 +2,7 @@ import { gunzipSync } from 'node:zlib';
 import { readFileSync, writeFileSync, mkdirSync, rmSync, readdirSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 
+// Reconstruct the complete reviewed source tree before development or deployment.
 const root = process.cwd();
 const parts = readdirSync(root)
   .filter((name) => name.startsWith('site.bundle.part-'))
