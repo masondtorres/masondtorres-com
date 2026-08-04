@@ -12,9 +12,9 @@ export function BookCard({ book }) {
         <h2><Link href={`/books/${book.slug}`}>{book.title}</Link></h2>
         {book.subtitle ? <p className="subtitle">{book.subtitle}</p> : null}
         <p>{book.description}</p>
-        <div className="card-actions">
-          <Link className="text-link" href={`/books/${book.slug}`}>Details</Link>
-          <a className="button button-primary button-small" href={book.retailerUrl} target="_blank" rel="noreferrer">
+        <div className="actions">
+          <Link className="button button-secondary" href={`/books/${book.slug}`}>Details</Link>
+          <a className="button button-primary" href={book.retailerUrl} target="_blank" rel="noreferrer">
             {book.retailerLabel}
           </a>
         </div>
