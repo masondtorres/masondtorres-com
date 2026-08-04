@@ -4,51 +4,38 @@ import { BookCard } from "./BookCard";
 
 export function CatalogClient({ books }) {
   const [query, setQuery] = useState("");
-  const [series, setSeries] = useState("All");
-  const seriesOptions = ["All", ...new Set(books.map((book) => book.series))];
 
   const filtered = useMemo(() => {
     const term = query.trim().toLowerCase();
+    if (!term) return books;
     return books.filter((book) => {
       const haystack = [book.title, book.subtitle || "", book.series, ...book.authors].join(" ").toLowerCase();
-      return (!term || haystack.includes(term)) && (series === "All" || book.series === series);
+      return haystack.includes(term);
     });
-  }, [books, query, series]);
-
-  const hasFilters = query || series !== "All";
+  }, [books, query]);
 
   return (
     <>
-      <div className="filters" aria-label="Book search">
+      <div className="filters filters-simple" aria-label="Book search">
         <label>
           Search books
           <input
             value={query}
             onChange={(event) => setQuery(event.target.value)}
-            placeholder="Title, author or series"
+            placeholder="Title, author, or subject"
           />
-        </label>
-        <label>
-          Series
-          <select value={series} onChange={(event) => setSeries(event.target.value)}>
-            {seriesOptions.map((item) => <option key={item}>{item}</option>)}
-          </select>
         </label>
       </div>
 
       <div className="results-row">
-        <span><strong>{filtered.length}</strong> books</span>
-        {hasFilters ? (
-          <button type="button" onClick={() => { setQuery(""); setSeries("All"); }}>
-            Clear
-          </button>
-        ) : null}
+        <span><strong>{filtered.length}</strong> available books</span>
+        {query ? <button type="button" onClick={() => setQuery("")}>Clear</button> : null}
       </div>
 
       {filtered.length ? (
         <div className="book-grid">{filtered.map((book) => <BookCard key={book.slug} book={book} />)}</div>
       ) : (
-        <div className="empty-state"><h2>No books found.</h2><p>Try another title, author or series.</p></div>
+        <div className="empty-state"><h2>No books found.</h2><p>Try another title, author, or subject.</p></div>
       )}
     </>
   );
