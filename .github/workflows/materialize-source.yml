@@ -3,7 +3,7 @@ on:
   push:
     branches: [main]
     paths:
-      - site.bundle.b64
+      - 'site.bundle.part-*'
       - scripts/materialize.mjs
   workflow_dispatch:
 permissions:
