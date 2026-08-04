@@ -1,11 +1,13 @@
 import { gunzipSync } from 'node:zlib';
-import { readFileSync, writeFileSync, mkdirSync, rmSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdirSync, rmSync, readdirSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 
 const root = process.cwd();
-const bundlePath = resolve(root, 'site.bundle.b64');
-const encoded = readFileSync(bundlePath, 'utf8').replace(/\s+/g, '');
-if (!encoded) throw new Error('site.bundle.b64 is empty');
+const parts = readdirSync(root)
+  .filter((name) => name.startsWith('site.bundle.part-'))
+  .sort();
+if (!parts.length) throw new Error('No site.bundle.part-* files found');
+const encoded = parts.map((name) => readFileSync(resolve(root, name), 'utf8')).join('').replace(/\s+/g, '');
 const manifest = JSON.parse(gunzipSync(Buffer.from(encoded, 'base64')).toString('utf8'));
 if (!manifest || manifest.version !== 1 || !Array.isArray(manifest.files)) {
   throw new Error('Invalid site bundle manifest');
@@ -33,4 +35,4 @@ for (const file of manifest.files) {
   mkdirSync(dirname(target), { recursive: true });
   writeFileSync(target, Buffer.from(file.content, 'base64'));
 }
-console.log(`Materialized ${manifest.files.length} files from site.bundle.b64`);
+console.log(`Materialized ${manifest.files.length} files from ${parts.length} bundle parts`);
