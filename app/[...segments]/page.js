@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { CatalogClient } from "@/components/CatalogClient";
-import { books, bookBySlug } from "@/lib/data";
+import { books, bookBySlug, publishedBookCount } from "@/lib/data";
 
 const baseUrl = "https://masondtorres-com.vercel.app";
 
@@ -55,7 +55,7 @@ export async function generateMetadata({ params }) {
   if (section === "books") {
     return {
       title: "Books",
-      description: "Published books by Mason Torres and collaborators.",
+      description: `${publishedBookCount} published books by Mason Torres and collaborators.`,
       alternates: { canonical: `${baseUrl}/books` }
     };
   }
@@ -82,8 +82,8 @@ export default async function CatchAllPage({ params }) {
   if (section === "books" && !slug) {
     return (
       <section className="shell section">
-        <h1>Books</h1>
-        <p className="lead compact">Published books you can find or buy now.</p>
+        <h1>{publishedBookCount} Published Books</h1>
+        <p className="lead compact">This page currently highlights selected titles from Mason Torres's published catalog. It is not the complete 84-book list.</p>
         <CatalogClient books={books} />
       </section>
     );
@@ -100,10 +100,10 @@ export default async function CatchAllPage({ params }) {
       <section className="shell section prose-page about-page">
         <p className="eyebrow">About the author</p>
         <h1>Mason Torres</h1>
-        <p className="lead compact">Mason Torres is an author, entrepreneur, operator, U.S. Air Force veteran, husband, and father of 13.</p>
+        <p className="lead compact">Mason Torres is an author of {publishedBookCount} published books, entrepreneur, operator, U.S. Air Force veteran, husband, and father of 13.</p>
         <p>His books grow out of lived work: leading a large family, building businesses, serving veterans, navigating financial pressure, and creating practical systems that people can use immediately.</p>
         <p>He writes about faith, family, business, publishing, artificial intelligence, timeshare, and fiction. House of Torres Publishers is the independent publishing home for this work.</p>
-        <div className="actions"><Link className="button button-primary" href="/books">Browse the books</Link></div>
+        <div className="actions"><Link className="button button-primary" href="/books">Browse selected books</Link></div>
       </section>
     );
   }
