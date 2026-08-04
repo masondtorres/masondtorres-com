@@ -18,7 +18,7 @@ export function CatalogClient({ books }) {
     <>
       <div className="filters" style={{ gridTemplateColumns: "1fr", maxWidth: "680px" }} aria-label="Book search">
         <label>
-          Search books
+          Search selected books
           <input
             value={query}
             onChange={(event) => setQuery(event.target.value)}
@@ -28,14 +28,14 @@ export function CatalogClient({ books }) {
       </div>
 
       <div className="results-row">
-        <span><strong>{filtered.length}</strong> available books</span>
+        <span><strong>{filtered.length}</strong> selected books shown</span>
         {query ? <button type="button" onClick={() => setQuery("")}>Clear</button> : null}
       </div>
 
       {filtered.length ? (
         <div className="book-grid">{filtered.map((book) => <BookCard key={book.slug} book={book} />)}</div>
       ) : (
-        <div className="empty-state"><h2>No books found.</h2><p>Try another title, author, or subject.</p></div>
+        <div className="empty-state"><h2>No selected books found.</h2><p>Try another title, author, or subject.</p></div>
       )}
     </>
   );
