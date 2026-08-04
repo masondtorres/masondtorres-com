@@ -9,21 +9,22 @@ export default function HomePage() {
     <>
       <section className="hero">
         <div className="shell">
-          <p className="eyebrow">House of Torres Publishers</p>
-          <h1>Books by Mason Torres.</h1>
+          <p className="eyebrow">Mason Torres · House of Torres Publishers</p>
+          <h1>Books built from real life.</h1>
           <p className="lead">
-            Practical books about faith, family, veterans, business, publishing, AI and fiction.
+            Mason Torres is an author, entrepreneur, U.S. Air Force veteran, husband, and father of 13. He writes practical books about faith, family, business, AI, and the lessons earned through real work.
           </p>
           <div className="actions">
-            <Link className="button button-primary" href="/books">Browse the books</Link>
+            <Link className="button button-primary" href="/books">See available books</Link>
+            <Link className="button button-secondary" href="/about">About Mason</Link>
           </div>
         </div>
       </section>
 
       <section className="section shell">
         <div className="section-heading">
-          <h2>Featured books</h2>
-          <Link className="text-link" href="/books">See all books</Link>
+          <h2>Start here</h2>
+          <Link className="text-link" href="/books">See all available books</Link>
         </div>
         <div className="book-grid">
           {featured.map((book) => <BookCard key={book.slug} book={book} />)}
