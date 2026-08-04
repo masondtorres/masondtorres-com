@@ -16,7 +16,7 @@ export function CatalogClient({ books }) {
 
   return (
     <>
-      <div className="filters filters-simple" aria-label="Book search">
+      <div className="filters" style={{ gridTemplateColumns: "1fr", maxWidth: "680px" }} aria-label="Book search">
         <label>
           Search books
           <input
