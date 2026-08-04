@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { BookCover } from "./BookCover";
 
 function statusClass(status) {
   return `status status-${status.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`;
@@ -7,11 +8,7 @@ function statusClass(status) {
 export function BookCard({ book }) {
   return (
     <article className="book-card">
-      <div className="cover" aria-label={`Text cover for ${book.title}`}>
-        <span>{book.category}</span>
-        <strong>{book.title}</strong>
-        <small>{book.authors.join(" & ")}</small>
-      </div>
+      <div className="cover-media"><BookCover book={book} linked /></div>
       <div className="card-body">
         <span className={statusClass(book.status)}>{book.status}</span>
         <h2><Link href={`/books/${book.slug}`}>{book.title}</Link></h2>
