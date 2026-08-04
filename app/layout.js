@@ -2,16 +2,21 @@ import "./globals.css";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 
+const baseUrl = "https://masondtorres-com.vercel.app";
+
 export const metadata = {
-  metadataBase: new URL("https://masondtorres.com"),
+  metadataBase: new URL(baseUrl),
   title: {
-    default: "Mason Torres | Books for Faith, Family, Work and Building Something Real",
+    default: "Mason Torres | Practical Books Built from Real Life",
     template: "%s | Mason Torres"
   },
-  description: "The official book platform for Mason Torres and House of Torres Publishers.",
+  description: "Published books by Mason Torres about faith, family, business, artificial intelligence, timeshare, and fiction.",
+  authors: [{ name: "Mason Torres" }],
+  alternates: { canonical: baseUrl },
   openGraph: {
     title: "Mason Torres",
-    description: "Books for faith, family, work and building something real.",
+    description: "Practical books built from real life.",
+    url: baseUrl,
     type: "website"
   }
 };
