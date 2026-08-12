@@ -1,7 +1,4 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "alias": [
-    "masondtorres.com",
-    "www.masondtorres.com"
-  ]
+  "alias": ["masondtorres.com", "www.masondtorres.com"]
 }
