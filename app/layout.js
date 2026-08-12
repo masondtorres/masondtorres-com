@@ -2,20 +2,20 @@ import "./globals.css";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 
-const baseUrl = "https://masondtorres-com.vercel.app";
+const baseUrl = "https://masondtorres.com";
 
 export const metadata = {
   metadataBase: new URL(baseUrl),
   title: {
-    default: "Mason Torres | 84 Published Books",
+    default: "Mason Torres | Books, Projects & Resources",
     template: "%s | Mason Torres"
   },
-  description: "The complete published catalog of Mason Torres and House of Torres Publishers: 84 books with direct retailer links and current availability.",
+  description: "Books, active projects, family publishing work, veteran resources, business tools, websites, and free resources from Mason Torres and House of Torres Publishers.",
   authors: [{ name: "Mason Torres" }],
   alternates: { canonical: baseUrl },
   openGraph: {
-    title: "Mason Torres | 84 Published Books",
-    description: "Faith, family, business, veterans, publishing, AI, timeshare, stories, journals, and puzzle books.",
+    title: "Mason Torres | Books, Projects & Resources",
+    description: "Books, projects, family publishing, veteran resources, business tools, websites, and free resources.",
     url: baseUrl,
     type: "website"
   }
