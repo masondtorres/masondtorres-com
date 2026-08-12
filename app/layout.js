@@ -1,4 +1,5 @@
 import "./globals.css";
+import "./hub.css";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 
