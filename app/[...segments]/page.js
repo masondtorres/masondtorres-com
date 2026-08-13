@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { CatalogClient } from "@/components/CatalogClient";
-import { books, bookBySlug, publishedBookCount } from "@/lib/data";
+import { getBooks, getBookBySlug } from "@/lib/catalog";
 import { projects, websites } from "@/lib/projects";
 import { BookCover } from "@/components/BookCover";
 
@@ -52,9 +52,11 @@ function BookPage({ book }) {
 export async function generateMetadata({ params }) {
   const { segments } = await params;
   const [section, slug] = segments || [];
+  const books = await getBooks();
+  const publishedBookCount = books.length;
 
   if (section === "books" && slug) {
-    const book = bookBySlug(slug);
+    const book = books.find((item) => item.slug === slug);
     if (book) return {
       title: book.title,
       description: `${book.title} by ${book.authors.join(" and ")}. ${book.status}.`,
@@ -67,7 +69,7 @@ export async function generateMetadata({ params }) {
     projects: ["Projects", "Current books, series, family publishing projects, websites, and other work in development."],
     websites: ["Websites", "Public websites connected to Mason Torres projects and House of Torres publishing work."],
     resources: ["Catalog & Free Resources", "Find free resources and request information about the House of Torres book catalog."],
-    about: ["About Mason Torres", `Mason Torres is an author of ${publishedBookCount} published books, entrepreneur, operator, U.S. Air Force veteran, husband, and father of 13.`],
+    about: ["About Mason Torres", `Mason Torres is an author with ${publishedBookCount} published books in the catalog, entrepreneur, operator, U.S. Air Force veteran, husband, and father of 13.`],
     privacy: ["Privacy", "Privacy information for masondtorres.com."]
   };
 
@@ -85,6 +87,8 @@ export default async function CatchAllPage({ params }) {
   const [section, slug] = segments || [];
 
   if (section === "books" && !slug) {
+    const books = await getBooks();
+    const publishedBookCount = books.length;
     const available = books.filter((book) => book.status === "Available Now").length;
     const updating = books.length - available;
     return (
@@ -98,7 +102,7 @@ export default async function CatchAllPage({ params }) {
   }
 
   if (section === "books" && slug) {
-    const book = bookBySlug(slug);
+    const book = await getBookBySlug(slug);
     if (!book) notFound();
     return <BookPage book={book} />;
   }
@@ -182,11 +186,12 @@ export default async function CatchAllPage({ params }) {
   }
 
   if (section === "about" && !slug) {
+    const books = await getBooks();
     return (
       <section className="shell section prose-page about-page">
         <p className="eyebrow">About</p>
         <h1>Mason Torres</h1>
-        <p className="lead compact">Mason Torres is an author of {publishedBookCount} published books, entrepreneur, operator, U.S. Air Force veteran, husband, and father of 13.</p>
+        <p className="lead compact">Mason Torres is an author with {books.length} published books in the catalog, entrepreneur, operator, U.S. Air Force veteran, husband, and father of 13.</p>
         <p>Most of the work on this site comes from things I have actually had to do: raise a large family, build businesses, work in sales, serve veterans, publish books, recover from financial pressure, and build systems that make the next job easier.</p>
         <p>The catalog covers faith and family, business, veterans, publishing, artificial intelligence, timeshare, fiction, children's books, journals, and puzzle books. The Projects page also shows work still being built, including books by my kids and family projects that have their own voice and identity.</p>
         <div className="actions"><Link className="button button-primary" href="/books">Browse books</Link><Link className="button button-secondary" href="/projects">See projects</Link></div>
