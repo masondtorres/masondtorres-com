@@ -27,7 +27,7 @@ export default function HomePage() {
             <span>published books in the catalog</span>
             <hr />
             <strong>{featuredProjects.length}+</strong>
-            <span>major active project lanes featured here</span>
+            <span>current books and project lanes featured here</span>
             <hr />
             <strong>{websites.length}</strong>
             <span>public project websites connected now</span>
@@ -38,7 +38,7 @@ export default function HomePage() {
       <section className="section shell">
         <div className="section-heading">
           <div>
-            <p className="eyebrow">Start here</p>
+            <p className="eyebrow">Published catalog</p>
             <h2>Featured books</h2>
           </div>
           <Link className="text-link" href="/books">View all {publishedBookCount}</Link>
@@ -52,8 +52,8 @@ export default function HomePage() {
         <div className="shell">
           <div className="section-heading">
             <div>
-              <p className="eyebrow">Building now</p>
-              <h2>Projects in motion</h2>
+              <p className="eyebrow">Updated August 13, 2026</p>
+              <h2>Newest books & projects</h2>
             </div>
             <Link className="text-link" href="/projects">View all projects</Link>
           </div>
@@ -66,6 +66,7 @@ export default function HomePage() {
                 </div>
                 <h3>{project.name}</h3>
                 <p>{project.description}</p>
+                {project.note ? <p className="project-note">{project.note}</p> : null}
                 {project.website ? <a className="text-link" href={project.website} target="_blank" rel="noreferrer">Visit {project.websiteLabel}</a> : null}
               </article>
             ))}
