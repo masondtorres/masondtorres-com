@@ -1,8 +1,9 @@
-import { books } from "@/lib/data";
+import { getBooks } from "@/lib/catalog";
 
 const base = "https://masondtorres.com";
 
-export default function sitemap() {
+export default async function sitemap() {
+  const books = await getBooks();
   const fixed = ["", "/books", "/projects", "/websites", "/resources", "/about", "/privacy"];
   return [
     ...fixed.map((path) => ({ url: `${base}${path}`, lastModified: new Date() })),
