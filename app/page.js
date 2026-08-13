@@ -1,9 +1,11 @@
 import Link from "next/link";
-import { books, publishedBookCount } from "@/lib/data";
+import { getBooks } from "@/lib/catalog";
 import { featuredProjects, websites } from "@/lib/projects";
 import { BookCard } from "@/components/BookCard";
 
-export default function HomePage() {
+export default async function HomePage() {
+  const books = await getBooks();
+  const publishedBookCount = books.length;
   const featured = books.filter((book) => book.featured && book.status === "Available Now").slice(0, 3);
 
   return (
