@@ -12,20 +12,30 @@ function preferredAsin(book) {
 export function BookCover({ book, large = false, linked = false }) {
   const asin = useMemo(() => preferredAsin(book), [book]);
   const [failed, setFailed] = useState(false);
-  const image = asin && !failed ? (
-    <img
-      className={large ? "book-cover-image book-cover-image-large" : "book-cover-image"}
-      src={`/cover/${asin}`}
-      alt={`${book.title} cover`}
-      loading={large ? "eager" : "lazy"}
-      decoding="async"
-      onError={() => setFailed(true)}
-    />
-  ) : (
-    <span className={large ? "cover text-cover large-cover" : "cover text-cover"} role="img" aria-label={`Cover placeholder for ${book.title}`}>
-      <span>{book.category}</span>
-      <strong>{book.title}</strong>
-      <small>{book.authors.join(" & ")}</small>
+  const showImage = Boolean(asin && !failed);
+
+  const image = (
+    <span className={large ? "cover-stack cover-stack-large" : "cover-stack"}>
+      <span
+        className={large ? "cover text-cover large-cover" : "cover text-cover"}
+        role="img"
+        aria-label={`Cover placeholder for ${book.title}`}
+        aria-hidden={showImage}
+      >
+        <span>{book.category}</span>
+        <strong>{book.title}</strong>
+        <small>{book.authors.join(" & ")}</small>
+      </span>
+      {showImage ? (
+        <img
+          className={large ? "book-cover-image book-cover-image-large" : "book-cover-image"}
+          src={`/cover/${asin}`}
+          alt={`${book.title} cover`}
+          loading={large ? "eager" : "lazy"}
+          decoding="async"
+          onError={() => setFailed(true)}
+        />
+      ) : null}
     </span>
   );
 

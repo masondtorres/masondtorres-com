@@ -23,11 +23,13 @@ a { color: inherit; }
 img { max-width: 100%; }
 main { min-height: 70vh; }
 .shell { width: min(1120px, calc(100% - 32px)); margin: 0 auto; }
+.skip-link { position: fixed; top: 8px; left: 8px; z-index: 1000; padding: 10px 14px; color: var(--white); background: var(--accent); border-radius: 3px; font-weight: 800; text-decoration: none; transform: translateY(-160%); transition: transform .15s ease; }
+.skip-link:focus { transform: translateY(0); }
 
 .site-header { background: var(--white); border-bottom: 1px solid var(--line); }
 .header-inner { min-height: 64px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
 .brand { font-family: Georgia, "Times New Roman", serif; font-size: 1.3rem; font-weight: 700; text-decoration: none; }
-.site-header nav, .site-footer nav { display: flex; gap: 20px; }
+.site-header nav, .site-footer nav { display: flex; flex-wrap: wrap; gap: 20px; }
 .site-header nav a, .site-footer nav a { font-size: .92rem; font-weight: 700; text-decoration: none; }
 .site-header nav a:hover, .site-footer nav a:hover, .text-link:hover { text-decoration: underline; }
 
@@ -52,14 +54,17 @@ h2 { font-size: clamp(1.45rem, 3vw, 2.1rem); }
 .book-card { overflow: hidden; background: var(--white); border: 1px solid var(--line); display: flex; flex-direction: column; }
 .cover-link { display: block; color: inherit; text-decoration: none; }
 .cover-media { min-height: 310px; padding: 18px; background: #ecebe6; border-bottom: 1px solid var(--line); display: flex; align-items: center; justify-content: center; }
-.book-cover-image { display: block; width: 100%; max-width: 185px; height: auto; aspect-ratio: 2 / 3; object-fit: cover; background: var(--white); box-shadow: 0 12px 25px rgba(25, 31, 27, .2); }
+.cover-stack { position: relative; display: block; width: 100%; max-width: 185px; aspect-ratio: 2 / 3; }
+.cover-stack-large { max-width: 310px; }
+.book-cover-image { position: absolute; inset: 0; display: block; width: 100%; max-width: none; height: 100%; object-fit: cover; background: var(--white); box-shadow: 0 12px 25px rgba(25, 31, 27, .2); }
 .cover { width: 100%; min-height: 235px; padding: 20px 17px; color: var(--white); background: var(--accent); display: flex; flex-direction: column; justify-content: space-between; text-align: center; }
+.cover-stack .cover { min-height: 100%; height: 100%; }
 .cover span { color: #d7e5dc; font-size: .66rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
 .cover strong { font-family: Georgia, "Times New Roman", serif; font-size: clamp(1rem, 2vw, 1.32rem); line-height: 1.18; overflow-wrap: anywhere; }
 .cover small { color: #e8eee9; }
 .card-body { padding: 18px; display: flex; flex: 1; flex-direction: column; }
-.card-body h2 { margin-top: 10px; font-size: 1.18rem; overflow-wrap: anywhere; }
-.card-body h2 a { text-decoration: none; }
+.card-body h3 { margin-top: 10px; font-size: 1.18rem; overflow-wrap: anywhere; }
+.card-body h3 a { text-decoration: none; }
 .card-body .actions { margin-top: auto; padding-top: 8px; }
 .book-meta-line, .publisher-line { color: var(--muted); font-size: .9rem; }
 
@@ -75,8 +80,9 @@ h2 { font-size: clamp(1.45rem, 3vw, 2.1rem); }
 
 .book-detail { display: grid; grid-template-columns: minmax(230px, 350px) minmax(0, 1fr); gap: 48px; align-items: start; }
 .detail-cover-wrap { min-height: 470px; padding: 24px; background: #ecebe6; border: 1px solid var(--line); display: flex; align-items: flex-start; justify-content: center; }
-.book-cover-image-large { width: 100%; max-width: 310px; box-shadow: 0 16px 35px rgba(25, 31, 27, .24); }
+.book-cover-image-large { width: 100%; max-width: none; box-shadow: 0 16px 35px rgba(25, 31, 27, .24); }
 .large-cover { width: 100%; min-height: 470px; }
+.cover-stack .large-cover { min-height: 100%; }
 .large-cover strong { font-size: clamp(1.25rem, 3vw, 1.85rem); }
 .book-detail h1 { margin-top: 14px; font-size: clamp(2rem, 4.7vw, 3.7rem); overflow-wrap: anywhere; }
 .format-heading { margin-top: 30px; font-size: 1.25rem; }
@@ -100,12 +106,12 @@ h2 { font-size: clamp(1.45rem, 3vw, 2.1rem); }
 @media (max-width: 680px) {
   .header-inner, .footer-grid { align-items: flex-start; flex-direction: column; }
   .header-inner { padding: 14px 0; }
+  .site-header nav { gap: 10px 16px; }
   .hero { padding: 52px 0; }
   .section { padding: 46px 0; }
   .section-heading { align-items: flex-start; flex-direction: column; }
   .filters, .book-grid, .book-detail { grid-template-columns: 1fr; }
   .cover-media { min-height: 280px; }
   .detail-cover-wrap { min-height: 0; padding: 20px; }
-  .large-cover { min-height: 380px; }
   .format-link { align-items: flex-start; flex-direction: column; gap: 4px; }
 }
