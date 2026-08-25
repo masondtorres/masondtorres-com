@@ -6,7 +6,7 @@ export default async function sitemap() {
   const books = await getBooks();
   const fixed = ["", "/books", "/projects", "/websites", "/resources", "/about", "/privacy"];
   return [
-    ...fixed.map((path) => ({ url: `${base}${path}`, lastModified: new Date() })),
-    ...books.map((book) => ({ url: `${base}/books/${book.slug}`, lastModified: new Date() }))
+    ...fixed.map((path) => ({ url: `${base}${path}` })),
+    ...books.map((book) => ({ url: `${base}/books/${book.slug}` }))
   ];
 }
