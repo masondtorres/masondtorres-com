@@ -17,35 +17,60 @@ function displayPrice(price) {
   return value.startsWith("$") ? value : `$${value}`;
 }
 
+function schemaAuthor(name) {
+  const isOrganization = /(books|publishers|publishing|press|media|studio|studios)$/i.test(name.trim());
+  return { "@type": isOrganization ? "Organization" : "Person", name };
+}
+
+function bookStructuredData(book) {
+  const url = `${baseUrl}/books/${book.slug}`;
+  return {
+    "@context": "https://schema.org",
+    "@type": "Book",
+    "@id": `${url}#book`,
+    name: book.title,
+    url,
+    author: book.authors.map(schemaAuthor),
+    genre: book.category,
+    ...(book.retailerUrl ? { sameAs: book.retailerUrl } : {})
+  };
+}
+
 function BookPage({ book }) {
   return (
-    <section className="shell section book-detail">
-      <div className="detail-cover-wrap"><BookCover book={book} large /></div>
-      <div>
-        <span className={statusClass(book.status)}>{book.status}</span>
-        <h1>{book.title}</h1>
-        <p className="book-meta-line">By {book.authors.join(" & ")}</p>
-        {book.series && book.series !== book.category ? <p className="publisher-line">Series: {book.series}</p> : null}
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(bookStructuredData(book)) }}
+      />
+      <section className="shell section book-detail">
+        <div className="detail-cover-wrap"><BookCover book={book} large /></div>
+        <div>
+          <span className={statusClass(book.status)}>{book.status}</span>
+          <h1>{book.title}</h1>
+          <p className="book-meta-line">By {book.authors.join(" & ")}</p>
+          {book.series && book.series !== book.category ? <p className="publisher-line">Series: {book.series}</p> : null}
 
-        {book.formats.length ? (
-          <>
-            <h2 className="format-heading">Available formats</h2>
-            <div className="format-list">
-              {book.formats.map((format) => (
-                <a key={format.asin} className="format-link" href={format.url} target="_blank" rel="noreferrer">
-                  <strong>{format.name}</strong>
-                  <span>{displayPrice(format.price)}</span>
-                </a>
-              ))}
-            </div>
-          </>
-        ) : (
-          <p className="revision-note">This published title is currently being corrected or revised. A purchase link will return when the updated edition is available.</p>
-        )}
+          {book.formats.length ? (
+            <>
+              <h2 className="format-heading">Available formats</h2>
+              <div className="format-list">
+                {book.formats.map((format) => (
+                  <a key={format.asin} className="format-link" href={format.url} target="_blank" rel="noreferrer">
+                    <strong>{format.name}</strong>
+                    <span>{displayPrice(format.price)}</span>
+                  </a>
+                ))}
+              </div>
+            </>
+          ) : (
+            <p className="revision-note">This published title is currently being corrected or revised. A purchase link will return when the updated edition is available.</p>
+          )}
 
-        <div className="actions"><Link className="button button-secondary" href="/books">Back to all books</Link></div>
-      </div>
-    </section>
+          <div className="actions"><Link className="button button-secondary" href="/books">Back to all books</Link></div>
+        </div>
+      </section>
+    </>
   );
 }
 
@@ -57,18 +82,35 @@ export async function generateMetadata({ params }) {
 
   if (section === "books" && slug) {
     const book = books.find((item) => item.slug === slug);
-    if (book) return {
-      title: book.title,
-      description: `${book.title} by ${book.authors.join(" and ")}. ${book.status}.`,
-      alternates: { canonical: `${baseUrl}/books/${book.slug}` }
-    };
+    if (book) {
+      const description = `${book.title} by ${book.authors.join(" and ")}. ${book.status}.`;
+      const url = `${baseUrl}/books/${book.slug}`;
+      return {
+        title: book.title,
+        description,
+        alternates: { canonical: url },
+        openGraph: {
+          title: book.title,
+          description,
+          url,
+          type: "book",
+          images: ["/opengraph-image"]
+        },
+        twitter: {
+          card: "summary_large_image",
+          title: book.title,
+          description,
+          images: ["/opengraph-image"]
+        }
+      };
+    }
   }
 
   const pages = {
     books: ["Books", `${publishedBookCount} published books by Mason Torres, House of Torres Publishers, and collaborators.`],
     projects: ["Projects", "Current books, series, family publishing projects, websites, and other work in development."],
     websites: ["Websites", "Public websites connected to Mason Torres projects and House of Torres publishing work."],
-    resources: ["Catalog & Free Resources", "Find free resources and request information about the House of Torres book catalog."],
+    resources: ["Catalog & Free Resources", "Browse the House of Torres book catalog and free public resources connected to Mason Torres projects."],
     about: ["About Mason Torres", `Mason Torres is an author with ${publishedBookCount} published books in the catalog, entrepreneur, operator, U.S. Air Force veteran, husband, and father of 13.`],
     privacy: ["Privacy", "Privacy information for masondtorres.com."]
   };
@@ -151,7 +193,7 @@ export default async function CatchAllPage({ params }) {
       <section className="shell section resources-page">
         <p className="eyebrow">Catalog & free resources</p>
         <h1>Looking for a book or something useful?</h1>
-        <p className="lead">Start with the full book catalog or use the free public resources below. A direct request form for a printed or emailed catalog will be connected here once the public contact destination is approved.</p>
+        <p className="lead">Start with the full book catalog or use the free public resources below.</p>
 
         <div className="resource-grid">
           <article className="resource-card">
@@ -174,12 +216,6 @@ export default async function CatchAllPage({ params }) {
             <p>Use Smoky Insider for current trip-planning information and resources tied to the Smokies guide project.</p>
             <a className="button button-primary" href="https://smokyinsider.com" target="_blank" rel="noreferrer">Go to Smoky Insider</a>
           </article>
-        </div>
-
-        <div className="request-box" id="request">
-          <p className="eyebrow">Request a catalog</p>
-          <h2>Want the catalog or new free resources when they are available?</h2>
-          <p>The request link belongs here. I am not publishing a guessed email address. Once the approved public email or form is connected, this box becomes the request form.</p>
         </div>
       </section>
     );
