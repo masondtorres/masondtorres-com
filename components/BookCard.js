@@ -11,7 +11,7 @@ export function BookCard({ book }) {
       <div className="cover-media"><BookCover book={book} linked /></div>
       <div className="card-body">
         <span className={statusClass(book.status)}>{book.status}</span>
-        <h2><Link href={`/books/${book.slug}`}>{book.title}</Link></h2>
+        <h3><Link href={`/books/${book.slug}`}>{book.title}</Link></h3>
         <p className="book-meta-line">By {book.authors.join(" & ")}</p>
         <div className="actions">
           <Link className="button button-secondary" href={`/books/${book.slug}`}>Details</Link>
