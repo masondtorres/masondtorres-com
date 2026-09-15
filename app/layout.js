@@ -15,13 +15,16 @@ export const metadata = {
   },
   description: defaultDescription,
   authors: [{ name: "Mason Torres" }],
+  alternates: { canonical: "/" },
   icons: {
-    icon: [{ url: "/icon", type: "image/png" }]
+    icon: [{ url: "/icon.svg", type: "image/svg+xml" }],
+    shortcut: "/icon.svg",
+    apple: "/icon.svg"
   },
   openGraph: {
     title: defaultTitle,
     description: "Books, projects, family publishing, veteran resources, business tools, websites, and free resources.",
-    url: baseUrl,
+    url: "/",
     siteName: "Mason Torres",
     type: "website",
     images: [
@@ -49,7 +52,15 @@ const structuredData = {
       "@id": `${baseUrl}/#person`,
       name: "Mason Torres",
       url: baseUrl,
-      description: "Author, entrepreneur, operator and U.S. Air Force veteran."
+      description: "Author, entrepreneur, operator and U.S. Air Force veteran.",
+      worksFor: { "@id": `${baseUrl}/#org` }
+    },
+    {
+      "@type": "Organization",
+      "@id": `${baseUrl}/#org`,
+      name: "House of Torres Publishers",
+      url: baseUrl,
+      founder: { "@id": `${baseUrl}/#person` }
     },
     {
       "@type": "WebSite",
@@ -57,7 +68,8 @@ const structuredData = {
       url: baseUrl,
       name: "Mason Torres",
       description: defaultDescription,
-      publisher: { "@id": `${baseUrl}/#person` }
+      publisher: { "@id": `${baseUrl}/#org` },
+      inLanguage: "en"
     }
   ]
 };
