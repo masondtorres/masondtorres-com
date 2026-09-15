@@ -56,7 +56,7 @@ function BookPage({ book }) {
               <h2 className="format-heading">Available formats</h2>
               <div className="format-list">
                 {book.formats.map((format) => (
-                  <a key={format.asin} className="format-link" href={format.url} target="_blank" rel="noreferrer">
+                  <a key={format.asin || format.url} className="format-link" href={format.url} target="_blank" rel="noreferrer">
                     <strong>{format.name}</strong>
                     <span>{displayPrice(format.price)}</span>
                   </a>
@@ -110,7 +110,7 @@ export async function generateMetadata({ params }) {
     books: ["Books", `${publishedBookCount} published books by Mason Torres, House of Torres Publishers, and collaborators.`],
     projects: ["Projects", "Current books, series, family publishing projects, websites, and other work in development."],
     websites: ["Websites", "Public websites connected to Mason Torres projects and House of Torres publishing work."],
-    resources: ["Catalog & Free Resources", "Browse the House of Torres book catalog and free public resources connected to Mason Torres projects."],
+    resources: ["Resources", "Browse the House of Torres book catalog and free public resources connected to Mason Torres projects."],
     about: ["About", `Mason Torres is an author with ${publishedBookCount} published books in the catalog, entrepreneur, operator, U.S. Air Force veteran, husband, and father of 13.`],
     privacy: ["Privacy", "Privacy information for masondtorres.com."]
   };
@@ -145,7 +145,7 @@ export default async function CatchAllPage({ params }) {
       <section className="shell section">
         <p className="eyebrow">Published catalog</p>
         <h1>{publishedBookCount} Books</h1>
-        <p className="lead compact">{available} titles currently have direct Amazon links. {updating} published titles are being revised or corrected.</p>
+        <p className="lead compact">{available} titles currently have direct Amazon links. {updating} published titles are being revised or corrected. Use subject or search if you do not want to scroll the whole catalog.</p>
         <CatalogClient books={books} />
       </section>
     );
@@ -221,8 +221,8 @@ export default async function CatchAllPage({ params }) {
           </article>
           <article className="resource-card">
             <h2>Smokies Resources</h2>
-            <p>Use Smoky Insider for current trip-planning information and resources tied to the Smokies guide project.</p>
-            <a className="button button-primary" href="https://smokyinsider.com" target="_blank" rel="noreferrer">Go to Smoky Insider</a>
+            <p>Use Smokies Insider for current trip-planning information and resources tied to the Smokies guide project.</p>
+            <a className="button button-primary" href="https://smokyinsider.com" target="_blank" rel="noreferrer">Go to Smokies Insider</a>
           </article>
         </div>
       </section>
@@ -238,6 +238,7 @@ export default async function CatchAllPage({ params }) {
         <p className="lead compact">Mason Torres is an author with {books.length} published books in the catalog, entrepreneur, operator, U.S. Air Force veteran, husband, and father of 13.</p>
         <p>Most of the work on this site comes from things I have actually had to do: raise a large family, build businesses, work in sales, serve veterans, publish books, recover from financial pressure, and build systems that make the next job easier.</p>
         <p>The catalog covers faith and family, business, veterans, publishing, artificial intelligence, timeshare, fiction, children's books, journals, and puzzle books. The Projects page also shows work still being built, including books by my kids and family projects that have their own voice and identity.</p>
+        <p>If you already know the job, skip the catalog dump: <Link href="/books?subject=Faith%20%26%20Family">faith and family</Link>, <Link href="/books?subject=Veterans">veterans</Link>, <a href="https://gtplaybook.com" target="_blank" rel="noreferrer">independent dealers</a>, or <a href="https://smokyinsider.com" target="_blank" rel="noreferrer">Smokies planning</a>.</p>
         <div className="actions"><Link className="button button-primary" href="/books">Browse books</Link><Link className="button button-secondary" href="/projects">See projects</Link></div>
       </section>
     );
