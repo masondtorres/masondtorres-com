@@ -15,7 +15,9 @@ export const metadata = {
   },
   description: defaultDescription,
   authors: [{ name: "Mason Torres" }],
-  alternates: { canonical: baseUrl },
+  icons: {
+    icon: [{ url: "/icon", type: "image/png" }]
+  },
   openGraph: {
     title: defaultTitle,
     description: "Books, projects, family publishing, veteran resources, business tools, websites, and free resources.",

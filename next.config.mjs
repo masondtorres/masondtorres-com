@@ -8,6 +8,16 @@ const securityHeaders = [
 const nextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
+  async redirects() {
+    return [
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "www.masondtorres.com" }],
+        destination: "https://masondtorres.com/:path*",
+        permanent: true
+      }
+    ];
+  },
   async headers() {
     return [
       {
