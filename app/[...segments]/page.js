@@ -111,15 +111,23 @@ export async function generateMetadata({ params }) {
     projects: ["Projects", "Current books, series, family publishing projects, websites, and other work in development."],
     websites: ["Websites", "Public websites connected to Mason Torres projects and House of Torres publishing work."],
     resources: ["Catalog & Free Resources", "Browse the House of Torres book catalog and free public resources connected to Mason Torres projects."],
-    about: ["About Mason Torres", `Mason Torres is an author with ${publishedBookCount} published books in the catalog, entrepreneur, operator, U.S. Air Force veteran, husband, and father of 13.`],
+    about: ["About", `Mason Torres is an author with ${publishedBookCount} published books in the catalog, entrepreneur, operator, U.S. Air Force veteran, husband, and father of 13.`],
     privacy: ["Privacy", "Privacy information for masondtorres.com."]
   };
 
-  if (pages[section]) return {
-    title: pages[section][0],
-    description: pages[section][1],
-    alternates: { canonical: `${baseUrl}/${section}` }
-  };
+  if (pages[section]) {
+    const url = `${baseUrl}/${section}`;
+    return {
+      title: pages[section][0],
+      description: pages[section][1],
+      alternates: { canonical: url },
+      openGraph: {
+        title: pages[section][0],
+        description: pages[section][1],
+        url
+      }
+    };
+  }
 
   return { title: "Mason Torres" };
 }
