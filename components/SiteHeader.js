@@ -9,7 +9,7 @@ export function SiteHeader() {
           <Link href="/books">Books</Link>
           <Link href="/projects">Projects</Link>
           <Link href="/websites">Websites</Link>
-          <Link href="/resources">Catalog & Free Resources</Link>
+          <Link href="/resources">Resources</Link>
           <Link href="/about">About</Link>
         </nav>
       </div>

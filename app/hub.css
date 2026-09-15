@@ -1,9 +1,11 @@
 .hero-home { padding: 68px 0; }
-.hero-grid { display: grid; grid-template-columns: minmax(0, 1fr) 280px; gap: 48px; align-items: center; }
-.hero-panel { padding: 24px; background: #f7f6f2; border: 1px solid #deded8; }
-.hero-panel strong { display: block; font-family: Georgia, "Times New Roman", serif; font-size: 2rem; }
-.hero-panel span { display: block; color: #667068; font-size: .9rem; }
-.hero-panel hr { margin: 18px 0; border: 0; border-top: 1px solid #deded8; }
+.hero-grid { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 48px; align-items: start; }
+.hero-panel { padding: 8px 0; }
+.start-paths { display: grid; gap: 10px; }
+.start-paths a { display: block; padding: 14px 16px; background: #f7f6f2; border: 1px solid #deded8; text-decoration: none; }
+.start-paths a:hover { border-color: #234c37; }
+.start-paths strong { display: block; font-family: Georgia, "Times New Roman", serif; font-size: 1.05rem; }
+.start-paths span { display: block; margin-top: 4px; color: #667068; font-size: .88rem; }
 .section-contrast { background: #edf1ed; border-top: 1px solid #deded8; border-bottom: 1px solid #deded8; }
 .project-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
 .project-grid-page { margin-top: 30px; }

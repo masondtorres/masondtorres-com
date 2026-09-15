@@ -5,7 +5,7 @@ import { SiteFooter } from "@/components/SiteFooter";
 
 const baseUrl = "https://masondtorres.com";
 const defaultTitle = "Mason Torres | Books, Projects & Resources";
-const defaultDescription = "Books, active projects, family publishing work, veteran resources, business tools, websites, and free resources from Mason Torres and House of Torres Publishers.";
+const defaultDescription = "Books and connected sites from Mason Torres and House of Torres Publishers: faith and family, veterans, independent dealers, family publishing, and practical systems.";
 
 export const metadata = {
   metadataBase: new URL(baseUrl),
@@ -15,16 +15,11 @@ export const metadata = {
   },
   description: defaultDescription,
   authors: [{ name: "Mason Torres" }],
-  alternates: { canonical: "/" },
-  icons: {
-    icon: [{ url: "/icon.svg", type: "image/svg+xml" }],
-    shortcut: "/icon.svg",
-    apple: "/icon.svg"
-  },
+  alternates: { canonical: baseUrl },
   openGraph: {
     title: defaultTitle,
-    description: "Books, projects, family publishing, veteran resources, business tools, websites, and free resources.",
-    url: "/",
+    description: defaultDescription,
+    url: baseUrl,
     siteName: "Mason Torres",
     type: "website",
     images: [
@@ -39,7 +34,7 @@ export const metadata = {
   twitter: {
     card: "summary_large_image",
     title: defaultTitle,
-    description: "Books, projects, family publishing, veteran resources, business tools, websites, and free resources.",
+    description: defaultDescription,
     images: ["/opengraph-image"]
   }
 };
@@ -52,8 +47,7 @@ const structuredData = {
       "@id": `${baseUrl}/#person`,
       name: "Mason Torres",
       url: baseUrl,
-      description: "Author, entrepreneur, operator and U.S. Air Force veteran.",
-      worksFor: { "@id": `${baseUrl}/#org` }
+      description: "Author, entrepreneur, operator and U.S. Air Force veteran."
     },
     {
       "@type": "Organization",
@@ -68,8 +62,7 @@ const structuredData = {
       url: baseUrl,
       name: "Mason Torres",
       description: defaultDescription,
-      publisher: { "@id": `${baseUrl}/#org` },
-      inLanguage: "en"
+      publisher: { "@id": `${baseUrl}/#org` }
     }
   ]
 };
