@@ -12,6 +12,7 @@ function preferredAsin(book) {
 export function BookCover({ book, large = false, linked = false }) {
   const asin = useMemo(() => preferredAsin(book), [book]);
   const [failed, setFailed] = useState(false);
+  const [loaded, setLoaded] = useState(false);
   const showImage = Boolean(asin && !failed);
 
   const image = (
@@ -20,7 +21,7 @@ export function BookCover({ book, large = false, linked = false }) {
         className={large ? "cover text-cover large-cover" : "cover text-cover"}
         role="img"
         aria-label={`Cover placeholder for ${book.title}`}
-        aria-hidden={showImage}
+        aria-hidden={showImage && loaded}
       >
         <span>{book.category}</span>
         <strong>{book.title}</strong>
@@ -28,11 +29,15 @@ export function BookCover({ book, large = false, linked = false }) {
       </span>
       {showImage ? (
         <img
-          className={large ? "book-cover-image book-cover-image-large" : "book-cover-image"}
+          className={`${large ? "book-cover-image book-cover-image-large" : "book-cover-image"}${loaded ? " is-loaded" : ""}`}
           src={`/cover/${asin}`}
           alt={`${book.title} cover`}
           loading={large ? "eager" : "lazy"}
           decoding="async"
+          onLoad={(event) => {
+            if (event.currentTarget.naturalWidth < 40) setFailed(true);
+            else setLoaded(true);
+          }}
           onError={() => setFailed(true)}
         />
       ) : null}
