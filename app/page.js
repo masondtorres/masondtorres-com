@@ -1,120 +1,76 @@
 import Link from "next/link";
-import { getBooks } from "@/lib/catalog";
-import { featuredProjects, websites } from "@/lib/projects";
+import { getAuthors, getBooks, getSeries } from "@/lib/catalog";
 import { BookCard } from "@/components/BookCard";
 
-const startPaths = [
-  { href: "/books?subject=Faith%20%26%20Family", label: "Faith & family", detail: "Devotionals, household systems, and Christian living." },
-  { href: "https://gtplaybook.com", label: "Independent dealers", detail: "Books, free tools, and direct help from the store." },
-  { href: "/books?subject=Veterans", label: "Veterans", detail: "Practical starting points and the Vols4Vets project." },
-  { href: "https://smokyinsider.com", label: "Smokies planning", detail: "Build a day around traffic, towns, food, and backups." }
+const houseSites = [
+  { name: "MasonDTorres.com", label: "Author", url: "https://masondtorres.com", description: "Mason Torres's author home, current work, and personal projects." },
+  { name: "GT Playbook", label: "Dealerships", url: "https://gtplaybook.com", description: "Books, tools, and practical systems for independent auto dealers." },
+  { name: "Vols4Vets", label: "Veterans", url: "https://vols4vets.com", description: "Public veteran resources and the companion field-guide project." },
+  { name: "Smokies Insider", label: "Travel", url: "https://smokyinsider.com", description: "Smoky Mountains trip planning built around useful local decisions." },
+  { name: "Volt Pro Services", label: "Family business", url: "https://voltproservices.com", description: "Samuel Torres's electrical-services business. Quotes and service requests stay on Volt Pro." },
+  { name: "Local Trade Garden", label: "Marketplace", url: "https://localtradegarden.com", description: "A local marketplace for selling, trading, and giving useful things a second life." }
 ];
 
 export default async function HomePage() {
   const books = await getBooks();
-  const publishedBookCount = books.length;
-  const featured = books.filter((book) => book.featured && book.status === "Available Now").slice(0, 3);
+  const authors = await getAuthors();
+  const series = await getSeries();
+  const featured = books.filter((book) => book.featured).slice(0, 6);
 
   return (
     <>
       <section className="hero hero-home">
         <div className="shell hero-grid">
           <div>
-            <p className="eyebrow">Mason Torres · House of Torres Publishers</p>
-            <h1>Start with the book or site that matches the job.</h1>
-            <p className="lead">
-              I publish from work I have actually had to do: raise a large family, build businesses, serve veterans, run dealership systems, and put books into the world with my kids.
-            </p>
+            <p className="eyebrow">Towers Books · House of Torres</p>
+            <h1>Find the book. Follow the work.</h1>
+            <p className="lead">Towers Books is the publishing house and front door for a growing catalog of practical nonfiction, family books, fiction, journals, puzzles, and connected projects.</p>
             <div className="actions">
-              <Link className="button button-primary" href="/books">Browse books</Link>
-              <Link className="button button-secondary" href="/projects">See current projects</Link>
+              <Link className="button button-primary" href="/books">Browse all {books.length} books</Link>
+              <Link className="button button-secondary" href="/authors">Browse authors</Link>
             </div>
           </div>
-          <nav className="hero-panel start-paths" aria-label="Start by job">
-            {startPaths.map((path) => (
-              path.href.startsWith("http") ? (
-                <a key={path.label} href={path.href} target="_blank" rel="noreferrer">
-                  <strong>{path.label}</strong>
-                  <span>{path.detail}</span>
-                </a>
-              ) : (
-                <Link key={path.label} href={path.href}>
-                  <strong>{path.label}</strong>
-                  <span>{path.detail}</span>
-                </Link>
-              )
-            ))}
+          <nav className="hero-panel start-paths" aria-label="Browse Towers Books">
+            <Link href="/books"><strong>{books.length} published titles</strong><span>Search and filter the full catalog.</span></Link>
+            <Link href="/authors"><strong>{authors.length} credited authors & imprints</strong><span>Go straight to the name on the book.</span></Link>
+            <Link href="/series"><strong>{series.length} series</strong><span>Keep related books together.</span></Link>
+            <Link href="/house"><strong>From the House of Torres</strong><span>Books connect to useful sites without turning this into a link dump.</span></Link>
           </nav>
         </div>
       </section>
 
       <section className="section shell">
         <div className="section-heading">
-          <div>
-            <p className="eyebrow">Published catalog</p>
-            <h2>Featured books</h2>
-          </div>
-          <Link className="text-link" href="/books">View all {publishedBookCount}</Link>
+          <div><p className="eyebrow">Start here</p><h2>Featured books</h2></div>
+          <Link className="text-link" href="/books">View full catalog</Link>
         </div>
-        <div className="book-grid">
-          {featured.map((book) => <BookCard key={book.slug} book={book} />)}
-        </div>
+        <div className="book-grid">{featured.map((book) => <BookCard key={book.slug} book={book} />)}</div>
       </section>
 
       <section className="section section-contrast">
         <div className="shell">
           <div className="section-heading">
-            <div>
-              <p className="eyebrow">Updated August 13, 2026</p>
-              <h2>Newest books & projects</h2>
-            </div>
-            <Link className="text-link" href="/projects">View all projects</Link>
+            <div><p className="eyebrow">The larger house</p><h2>From the House of Torres</h2></div>
+            <Link className="text-link" href="/house">See how the sites fit together</Link>
           </div>
-          <div className="project-grid">
-            {featuredProjects.map((project) => (
-              <article className="project-card" key={project.slug}>
-                <div className="project-topline">
-                  <span>{project.type}</span>
-                  <span>{project.status}</span>
-                </div>
-                <h3>{project.name}</h3>
-                <p>{project.description}</p>
-                {project.note ? <p className="project-note">{project.note}</p> : null}
-                {project.website ? <a className="text-link" href={project.website} target="_blank" rel="noreferrer">Visit {project.websiteLabel}</a> : null}
-              </article>
+          <div className="website-grid">
+            {houseSites.map((site) => (
+              <a className="website-card" href={site.url} target="_blank" rel="noreferrer" key={site.url}>
+                <span>{site.label}</span><h3>{site.name}</h3><p>{site.description}</p><strong>Visit site →</strong>
+              </a>
             ))}
           </div>
-        </div>
-      </section>
-
-      <section className="section shell">
-        <div className="section-heading">
-          <div>
-            <p className="eyebrow">Connected work</p>
-            <h2>Websites</h2>
-          </div>
-          <Link className="text-link" href="/websites">See all websites</Link>
-        </div>
-        <div className="website-grid">
-          {websites.map((site) => (
-            <a className="website-card" href={site.url} target="_blank" rel="noreferrer" key={site.url}>
-              <span>{site.label}</span>
-              <h3>{site.name}</h3>
-              <p>{site.description}</p>
-              <strong>Visit site →</strong>
-            </a>
-          ))}
         </div>
       </section>
 
       <section className="section family-band">
         <div className="shell family-band-inner">
           <div>
-            <p className="eyebrow">Family publishing</p>
-            <h2>The work is bigger than one author.</h2>
-            <p className="lead compact">McGree Kids, McKenzie's Books, Amalia's Books, Callista Fiction, Abel Fiction, and other family projects have their own place in the larger publishing work.</p>
+            <p className="eyebrow">Storefront discipline</p>
+            <h2>Only real books and real products.</h2>
+            <p className="lead compact">Books link out only when a durable purchase path is verified. The Towers Books shop will stay closed until the products behind it are real.</p>
           </div>
-          <Link className="button button-primary" href="/projects#family-publishing">See family projects</Link>
+          <Link className="button button-primary" href="/shop">Shop status</Link>
         </div>
       </section>
     </>

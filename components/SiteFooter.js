@@ -5,19 +5,20 @@ export function SiteFooter() {
     <footer className="site-footer">
       <div className="shell footer-grid">
         <div>
-          <strong>Mason Torres</strong>
-          <p>House of Torres Publishers</p>
+          <strong>Towers Books</strong>
+          <p>Books from the House of Torres.</p>
         </div>
         <nav aria-label="Footer navigation">
           <Link href="/books">Books</Link>
-          <Link href="/projects">Projects</Link>
-          <Link href="/websites">Websites</Link>
-          <Link href="/resources">Resources</Link>
+          <Link href="/authors">Authors</Link>
+          <Link href="/series">Series</Link>
+          <Link href="/house">House</Link>
+          <Link href="/shop">Shop</Link>
           <Link href="/about">About</Link>
           <Link href="/privacy">Privacy</Link>
         </nav>
       </div>
-      <div className="shell copyright">© {new Date().getFullYear()} Mason Torres. All rights reserved.</div>
+      <div className="shell copyright">© {new Date().getFullYear()} Towers Books. All rights reserved.</div>
     </footer>
   );
 }

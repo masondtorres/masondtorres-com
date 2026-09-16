@@ -3,33 +3,27 @@ import "./hub.css";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 
-const baseUrl = "https://masondtorres.com";
-const defaultTitle = "Mason Torres | Books, Projects & Resources";
-const defaultDescription = "Books and connected sites from Mason Torres and House of Torres Publishers: faith and family, veterans, independent dealers, family publishing, and practical systems.";
+const baseUrl = "https://towersbooks.com";
+const defaultTitle = "Towers Books | Books from the House of Torres";
+const defaultDescription = "Browse the Towers Books catalog by title, author, series, subject, language, and format. Practical nonfiction, family publishing, fiction, journals, puzzles, and connected House of Torres projects.";
 
 export const metadata = {
   metadataBase: new URL(baseUrl),
   title: {
     default: defaultTitle,
-    template: "%s | Mason Torres"
+    template: "%s | Towers Books"
   },
   description: defaultDescription,
-  authors: [{ name: "Mason Torres" }],
+  creator: "Towers Books",
+  publisher: "Towers Books",
   alternates: { canonical: baseUrl },
   openGraph: {
     title: defaultTitle,
     description: defaultDescription,
     url: baseUrl,
-    siteName: "Mason Torres",
+    siteName: "Towers Books",
     type: "website",
-    images: [
-      {
-        url: "/opengraph-image",
-        width: 1200,
-        height: 630,
-        alt: "Mason Torres — Books, Projects & Resources"
-      }
-    ]
+    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "Towers Books" }]
   },
   twitter: {
     card: "summary_large_image",
@@ -43,26 +37,23 @@ const structuredData = {
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "Person",
-      "@id": `${baseUrl}/#person`,
-      name: "Mason Torres",
-      url: baseUrl,
-      description: "Author, entrepreneur, operator and U.S. Air Force veteran."
-    },
-    {
       "@type": "Organization",
-      "@id": `${baseUrl}/#org`,
-      name: "House of Torres Publishers",
-      url: baseUrl,
-      founder: { "@id": `${baseUrl}/#person` }
+      "@id": `${baseUrl}/#publisher`,
+      name: "Towers Books",
+      url: baseUrl
     },
     {
       "@type": "WebSite",
       "@id": `${baseUrl}/#website`,
       url: baseUrl,
-      name: "Mason Torres",
+      name: "Towers Books",
       description: defaultDescription,
-      publisher: { "@id": `${baseUrl}/#org` }
+      publisher: { "@id": `${baseUrl}/#publisher` },
+      potentialAction: {
+        "@type": "SearchAction",
+        target: `${baseUrl}/books?q={search_term_string}`,
+        "query-input": "required name=search_term_string"
+      }
     }
   ]
 };
@@ -71,10 +62,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-        />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
         <a className="skip-link" href="#main-content">Skip to main content</a>
         <SiteHeader />
         <main id="main-content">{children}</main>

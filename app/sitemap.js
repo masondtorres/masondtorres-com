@@ -1,12 +1,14 @@
-import { getBooks } from "@/lib/catalog";
+import { getAuthors, getBooks, getSeries } from "@/lib/catalog";
 
-const base = "https://masondtorres.com";
+const base = "https://towersbooks.com";
 
 export default async function sitemap() {
-  const books = await getBooks();
-  const fixed = ["", "/books", "/projects", "/websites", "/resources", "/about", "/privacy"];
+  const [books, authors, series] = await Promise.all([getBooks(), getAuthors(), getSeries()]);
+  const fixed = ["", "/books", "/authors", "/series", "/house", "/shop", "/about", "/privacy"];
   return [
     ...fixed.map((path) => ({ url: `${base}${path}` })),
-    ...books.map((book) => ({ url: `${base}/books/${book.slug}` }))
+    ...books.map((book) => ({ url: `${base}/books/${book.slug}` })),
+    ...authors.map((author) => ({ url: `${base}/authors/${author.slug}` })),
+    ...series.map((item) => ({ url: `${base}/series/${item.slug}` }))
   ];
 }

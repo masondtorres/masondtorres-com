@@ -12,19 +12,14 @@ const nextConfig = {
     return [
       {
         source: "/:path*",
-        has: [{ type: "host", value: "www.masondtorres.com" }],
-        destination: "https://masondtorres.com/:path*",
+        has: [{ type: "host", value: "www.towersbooks.com" }],
+        destination: "https://towersbooks.com/:path*",
         permanent: true
       }
     ];
   },
   async headers() {
-    return [
-      {
-        source: "/:path*",
-        headers: securityHeaders
-      }
-    ];
+    return [{ source: "/:path*", headers: securityHeaders }];
   }
 };
 

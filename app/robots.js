@@ -1,6 +1,6 @@
 export default function robots() {
   return {
     rules: { userAgent: "*", allow: "/" },
-    sitemap: "https://masondtorres.com/sitemap.xml"
+    sitemap: "https://towersbooks.com/sitemap.xml"
   };
 }
