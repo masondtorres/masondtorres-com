@@ -4,7 +4,7 @@ const base = "https://masondtorres.com";
 
 export default async function sitemap() {
   const books = await getBooks();
-  const fixed = ["", "/books", "/projects", "/websites", "/resources", "/about", "/privacy"];
+  const fixed = ["", "/books", "/projects", "/websites", "/resources", "/about", "/contact", "/privacy"];
   return [
     ...fixed.map((path) => ({ url: `${base}${path}` })),
     ...books.map((book) => ({ url: `${base}/books/${book.slug}` }))
