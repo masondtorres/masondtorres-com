@@ -51,6 +51,7 @@ export function CatalogClient({ books, initialAuthor = "All", initialSeries = "A
         book.language,
         book.status,
         ...book.authors,
+        ...(book.searchAliases || []),
         ...book.formats.map((item) => item.name)
       ].filter(Boolean).join(" ").toLowerCase();
       return (subject === "All" || book.category === subject)
