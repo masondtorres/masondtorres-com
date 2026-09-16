@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { CatalogClient } from "@/components/CatalogClient";
 import { BookCard } from "@/components/BookCard";
 import { BookCover } from "@/components/BookCover";
-import { getAuthors, getBookBySlug, getBooks, getSeries, slugify } from "@/lib/catalog";
+import { getAuthors, getBookBySlug, getBooks, getSeries } from "@/lib/catalog";
 
 const baseUrl = "https://towersbooks.com";
 const houseSites = [
@@ -43,6 +43,28 @@ function bookStructuredData(book) {
     genre: book.category,
     inLanguage: book.language,
     ...(book.retailerUrl ? { sameAs: book.retailerUrl } : {})
+  };
+}
+
+function routeMetadata(title, description, url, type = "website") {
+  return {
+    title,
+    description,
+    alternates: { canonical: url },
+    openGraph: {
+      title,
+      description,
+      url,
+      siteName: "Towers Books",
+      type,
+      images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "Towers Books" }]
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: ["/opengraph-image"]
+    }
   };
 }
 
@@ -97,18 +119,24 @@ export async function generateMetadata({ params }) {
     if (book) {
       const description = `${book.title} by ${book.authors.join(" and ")}. ${book.category}.`;
       const url = `${baseUrl}/books/${book.slug}`;
-      return { title: book.title, description, alternates: { canonical: url }, openGraph: { title: book.title, description, url, type: "book" } };
+      return routeMetadata(book.title, description, url, "book");
     }
   }
 
   if (section === "authors" && slug) {
     const author = (await getAuthors()).find((item) => item.slug === slug);
-    if (author) return { title: author.name, description: `Published Towers Books titles credited to ${author.name}.`, alternates: { canonical: `${baseUrl}/authors/${slug}` } };
+    if (author) {
+      const description = `Published Towers Books titles credited to ${author.name}.`;
+      return routeMetadata(author.name, description, `${baseUrl}/authors/${slug}`);
+    }
   }
 
   if (section === "series" && slug) {
     const series = (await getSeries()).find((item) => item.slug === slug);
-    if (series) return { title: series.name, description: `Browse ${series.name} titles in the Towers Books catalog.`, alternates: { canonical: `${baseUrl}/series/${slug}` } };
+    if (series) {
+      const description = `Browse ${series.name} titles in the Towers Books catalog.`;
+      return routeMetadata(series.name, description, `${baseUrl}/series/${slug}`);
+    }
   }
 
   const pages = {
@@ -120,8 +148,8 @@ export async function generateMetadata({ params }) {
     about: ["About", "Towers Books is the publishing house and catalog front door for books from the House of Torres."],
     privacy: ["Privacy", "Privacy information for TowersBooks.com."]
   };
-  if (pages[section]) return { title: pages[section][0], description: pages[section][1], alternates: { canonical: `${baseUrl}/${section}` } };
-  return { title: "Towers Books" };
+  if (pages[section]) return routeMetadata(pages[section][0], pages[section][1], `${baseUrl}/${section}`);
+  return routeMetadata("Towers Books", "Books from the House of Torres.", baseUrl);
 }
 
 export default async function CatchAllPage({ params }) {
