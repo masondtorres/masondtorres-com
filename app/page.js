@@ -6,7 +6,7 @@ import { BookCard } from "@/components/BookCard";
 const startPaths = [
   { href: "/books?subject=Faith%20%26%20Family", label: "Faith & family", detail: "Devotionals, household systems, and Christian living." },
   { href: "https://gtplaybook.com", label: "Independent dealers", detail: "Books, free tools, and direct help from the store." },
-  { href: "/books?subject=Veterans", label: "Veterans", detail: "Practical starting points and the Vols4Vets project." },
+  { href: "https://vols4vets.com", label: "Veterans", detail: "Practical starting points and the Vols4Vets project." },
   { href: "https://smokyinsider.com", label: "Smokies planning", detail: "Build a day around traffic, towns, food, and backups." }
 ];
 
