@@ -1,10 +1,11 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
+  "alias": ["towersbooks.com", "www.towersbooks.com"],
   "redirects": [
     {
       "source": "/:path*",
-      "has": [{ "type": "host", "value": "www.masondtorres.com" }],
-      "destination": "https://masondtorres.com/:path*",
+      "has": [{ "type": "host", "value": "www.towersbooks.com" }],
+      "destination": "https://towersbooks.com/:path*",
       "permanent": true
     }
   ],
